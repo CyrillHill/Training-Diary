@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Training_Diary.MoreAboutTr"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:Training_Diary"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label FontSize="14" Grid.Column="0" Grid.Row="0" >Название тренировки:</Label>
+            <TextBlock FontSize="14" Name="trname" Text="{Binding Path=Name}" Grid.Column="1" Grid.Row="0" Width="100" Height="30" VerticalAlignment="Top" ></TextBlock>
+            <Label FontSize="14" Grid.Column="0" Grid.Row="1">Упражнения:</Label>
+        </Grid>
+        <TabControl>
+            <TabItem Header="Силовые">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="106*"/>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="145*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView Grid.Column="0" Name="Show"  Margin="5" 
+                         AlternationCount="2"
+                         ItemsSource="{Binding Path=UsStrength}" Grid.ColumnSpan="2">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding Path=ExName}"/>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListView>
+                    <DataGrid Grid.Column="2"  Name="dtgridnew"  
+                     AlternationCount="2"
+                      ItemsSource="{Binding ElementName=Show,Path=SelectedItem.ExPassNumber}"
+                      AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер подхода" Binding="{Binding Path=PassNumberName}"/>
+                            <DataGridTextColumn Header="Повторения" Binding="{Binding Path=Reiteration}"/>
+                            <DataGridTextColumn Header="Вес" Binding="{Binding Path=Weight}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Кардио">
+                <DataGrid
+                     AlternationCount="2"
+                      ItemsSource="{Binding Path=UsKardio}"
+                      AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Упражнение" Binding="{Binding Path=ExName}"/>
+                        <DataGridTextColumn Header="Время" Binding="{Binding Path=Duration}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+     <Button Width="50" Click="StartTr">Начать</Button>
+    </StackPanel>
+</UserControl>
